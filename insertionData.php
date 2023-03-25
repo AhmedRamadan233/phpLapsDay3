@@ -7,10 +7,6 @@ function validate($data) {
     $data = htmlspecialchars($data);
     return $data;
 }
-// confirmPassword
-// roomNumber
-// exitt
-// pic
 if(isset($_POST['name']) &&
    isset($_POST['email']) &&
    isset($_POST['password']) &&
@@ -55,22 +51,22 @@ if(isset($_POST['name']) &&
       $file_type = $_FILES['pic']['type'];
       $file_ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
       $extensions = array("jpeg", "jpg", "png");
-  
+
       if(in_array($file_ext, $extensions) === false) {
           $em = "extension not allowed, please choose a JPEG, JPG, or PNG file.";
-          header("Location: index.php?error=$em");
+          header("Location: index.php?error=$em&$data");
           exit;
       }
-  
+
       if($file_size > 2097152) {
           $em = 'File size must be excately 2 MB';
-          header("Location: index.php?error=$em");
+          header("Location: index.php?error=$em&$data");
           exit;
       }
-  
+
       $pic = uniqid() . "." . $file_ext;
       move_uploaded_file($file_tmp, "uploads/" . $pic);
-    
+
       $data = "Name: $name\nEmail: $email\nPassword: $password\nRoom Number: $roomNumber\nExitt: $exitt\nPic Path: uploads/$pic\n";
       file_put_contents('data.txt', $data, FILE_APPEND);
       $sm = "account created successfully";

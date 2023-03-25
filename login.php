@@ -2,24 +2,18 @@
 session_start();
 
 if (isset($_POST['email']) && isset($_POST['password'])) {
-  // Validate login credentials
-  $email = $_POST['email'];
-  $password = $_POST['password'];
+      $email = $_POST['email'];
+      $password = $_POST['password'];
 
-  
-    // Read the data file
-    $data = file_get_contents('data.txt');
+      $data = file_get_contents('data.txt');
 
-    // Search for the user's email in the file
     preg_match("/Email: $email\nPassword: ([a-f0-9]{32})\n/", $data, $matches);
 
     if (!empty($matches) && md5($password) === $matches[1]) {
-        // Successful login
         $_SESSION['email'] = $email;
         header("Location: home.php");
         exit();
     } else {
-        // Invalid credentials
         $error = "Invalid email or password";
     }
 }
